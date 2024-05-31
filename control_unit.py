@@ -1,12 +1,19 @@
 from typing import List
-from microcode import Signal, SignalValue, InstructionDecoder, ControlStore, Instruction, Microcode
+from microcode import (
+    Signal,
+    SignalValue,
+    InstructionDecoder,
+    ControlStore,
+    Instruction,
+    Microcode,
+)
 from data_path import DataPath
 
 from numpy import int16
 import logging
 
-class ControlUnit:
 
+class ControlUnit:
     instruction_pointer: int16 = None
 
     instructions_memory: List[Instruction] = None
@@ -22,15 +29,13 @@ class ControlUnit:
     mc_addres: int16 = None
 
     current_mc: Microcode = None
-    
+
     tick: int = None
-    
+
     mux1: int16 = None
     mux2: int16 = None
-    
 
     def __init__(self, data_path: DataPath, instructions: List[Instruction]):
-        
         self.instruction_pointer = int16(0)
         self.instructions_memory = instructions.copy()
         self.data_path = data_path
@@ -43,7 +48,6 @@ class ControlUnit:
         self.mux2 = int16(0)
 
     def signal_sel_mc_addr(self, signal: int16):
-        
         match signal:
             case SignalValue.SEL_MC_ADDR_INC.value:
                 self.mux1 = self.mc_addres + int16(1)
@@ -53,7 +57,6 @@ class ControlUnit:
                 self.mux1 = int16(0)
 
     def signal_sel_ip(self, signal: int16):
-
         match signal:
             case SignalValue.SEL_IP_INC.value:
                 self.mux2 = self.instruction_pointer + int16(1)
@@ -78,7 +81,6 @@ class ControlUnit:
         self.mc_addres = self.mux1
 
     def send_signal(self, signal: Signal, signal_value: int16):
-        
         match signal:
             case Signal.LATCH_IP:
                 self.signal_latch_ip()
@@ -126,28 +128,44 @@ class ControlUnit:
                 self.data_path.signal_sel_r_write(signal_value)
             case Signal.LATCH_OR:
                 self.data_path.signal_latch_or()
-            case Signal.PORT1_OUT:
-                pass
-            case Signal.PORT1_IN:
-                pass
-            
-            
+            case Signal.INP_BUF_READ:
+                self.data_path.signal_inp_buf_read()
+            case Signal.OUT_BUF_WRITE:
+                self.data_path.signal_out_buf_write()
 
+    def info(self):
+        action = (
+            self.instruction_register["opcode"]
+            + " "
+            + self.instruction_decoder.first_arg_val
+            + " "
+            + self.instruction_decoder.second_arg_val
+            if self.mc_addres not in [0, 1]
+            else "INSTR FETCH"
+        )
+        log_message = ""
+        log_message += f"TICK: {self.tick:<5} "
+        log_message += f"ACTION: {str(action):<12}  "
+        log_message += f"MC: {self.mc_addres:<4}  "
+        log_message += f"IP: {self.instruction_pointer:<4}  "
+        log_message += f"AR: {self.data_path.address_register:<4}  "
+        log_message += f"R1: {self.data_path.r1:<4}  "
+        log_message += f"R2: {self.data_path.r2:<4}  "
+        log_message += f"R3: {self.data_path.r3:<4}  "
+        log_message += f"Z: {int(self.data_path.alu.zero_flag):<2}  "
+        log_message += f"DR: {self.data_path.data_register:<4}  "
+        log_message += f"OR: {self.data_path.operand_register:<4}  "
+
+        logging.debug(log_message)
 
     def control_logic_procced(self):
-        
         while True:
-            self.tick += int16(1)
-            
+            self.tick += 1
+
             for signal, value in self.current_mc.items():
                 self.send_signal(signal, value)
-                
-        
-        
 
+            self.info()
 
-
-    
-
-
-    
+            self.send_signal(Signal.LATCH_MC_ADDR, SignalValue.LATCH)
+            self.send_signal(Signal.READ_MC, SignalValue.READ_MC)

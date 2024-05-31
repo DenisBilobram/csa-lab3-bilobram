@@ -1,11 +1,9 @@
 from typing import List
 from microcode import SignalValue
 from numpy import int16
-import logging
 
 
 class ALU:
-
     first_operand: int16 = None
 
     second_operand: int16 = None
@@ -19,20 +17,20 @@ class ALU:
         self.second_operand = int16(0)
         self.result = int16(0)
         self.zero_flag = False
-    
-class Memory:
 
+
+class Memory:
     memory: List[int16] = None
 
     output_value: int16 = None
 
     def __init__(self, data: List[int16]):
         self.memory = [int16(el) for el in data]
-        self.memory.extend([int16(0)]*(1024-len(data)))
+        self.memory.extend([int16(0)] * (1024 - len(data)))
         self.output_value = int16(0)
 
+
 class DataPath:
-     
     data_memory: Memory = None
 
     address_register: int16 = None
@@ -61,10 +59,10 @@ class DataPath:
     operand_bus: int16 = None
 
     def __init__(self, data: List[int16], input_tokens: List[str]):
-
         self.data_memory = Memory(data)
         self.data_register = int16(0)
         self.operand_register = int16(0)
+        self.address_register = int16(0)
         self.r1 = int16(0)
         self.r2 = int16(0)
         self.r3 = int16(0)
@@ -77,7 +75,6 @@ class DataPath:
         self.operand_bus = int16(0)
 
     def signal_sel_op_first(self, selector: int16):
-
         match selector:
             case SignalValue.SEL_OP_FIRST_R1.value:
                 self.alu.first_operand = self.r1
@@ -87,7 +84,6 @@ class DataPath:
                 self.alu.first_operand = self.r3
 
     def signal_sel_op_second(self, selector: int16):
-
         match selector:
             case SignalValue.SEL_OP_SECOND_R1.value:
                 self.alu.second_operand = self.r1
@@ -99,7 +95,6 @@ class DataPath:
                 self.alu.second_operand = self.operand_register
 
     def signal_operation(self, operation: int16):
-
         match operation:
             case SignalValue.OPERATION_ADD.value:
                 self.alu.result = self.alu.first_operand + self.alu.second_operand
@@ -122,7 +117,6 @@ class DataPath:
             self.alu.zero_flag = False
 
     def signal_sel_r_write(self, selector: int16):
-
         match selector:
             case SignalValue.SEL_R_WRITE_ALU.value:
                 self.mux1 = self.alu.result
@@ -134,11 +128,12 @@ class DataPath:
                 if len(self.input_buffer) == 0:
                     raise EOFError()
                 symbol = self.input_buffer[0]
-                if type(symbol) == str:
+                if isinstance(symbol, str):
                     symbol = ord(symbol)
-                assert -128 <= symbol <= 127, "input token is out of bound: {}".format(symbol)
+                assert -128 <= symbol <= 127, "input token is out of bound: {}".format(
+                    symbol
+                )
                 self.mux1 = symbol
-                logging.debug("input: %s", chr(symbol))
 
             case SignalValue.SEL_R_WRITE_DR.value:
                 self.mux1 = self.data_register
@@ -147,7 +142,6 @@ class DataPath:
                 self.mux1 = self.mux2
 
     def signal_sel_r_read(self, selector: int16):
-
         match selector:
             case SignalValue.SEL_R_READ_R1.value:
                 self.mux2 = self.r1
@@ -157,7 +151,6 @@ class DataPath:
                 self.mux2 = self.r3
 
     def signal_sel_address(self, selector: int16):
-
         match selector:
             case SignalValue.SEL_ADDRESS_OPERAND.value:
                 self.mux3 = self.operand_bus
@@ -193,31 +186,9 @@ class DataPath:
 
     def signal_latch_r3(self):
         self.r3 = self.mux1
-
     
-
-
-
+    def signal_out_buf_write(self):
+        pass
     
-
-    
-
-
-
-                
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
+    def signal_inp_buf_read(self):
+        pass

@@ -15,7 +15,7 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
     address_counter: int = 0
 
     # Разделение на .data и .text
-    sections = re.split(r'\.text', asm_code, flags=re.IGNORECASE)
+    sections = re.split(r"\.text", asm_code, flags=re.IGNORECASE)
     if len(sections) != 2:
         raise ValueError("Invalid ASM code format: .text section missing")
 
@@ -25,9 +25,9 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
     data_lines = data_code.strip().splitlines()
     data_address_counter = 0x0000  # Начальный адрес для секции .data
     for line in data_lines:
-        if line.startswith('.data'):
+        if line.startswith(".data"):
             continue
-        label, value = map(str.strip, line.split(':', 1))
+        label, value = map(str.strip, line.split(":", 1))
 
         if value.startswith("RESERVE"):
             _, num_bytes = value.split()
@@ -42,7 +42,9 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
                 if literal.startswith("'") and literal.endswith("'"):
                     char_value = literal.strip("'")
                     if char_value == "\\n":
-                        data_section.append(ASCII_END_OF_LINE_CODE)  # ASCII код для переноса строки
+                        data_section.append(
+                            ASCII_END_OF_LINE_CODE
+                        )  # ASCII код для переноса строки
                     else:
                         data_section.append(ord(char_value))
                 elif literal.isdigit():
@@ -55,8 +57,8 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
     # Обработка .text
     text_lines = text_code.strip().splitlines()
     for line in text_lines:
-        if ':' in line:
-            label, command = map(str.strip, line.split(':', 1))
+        if ":" in line:
+            label, command = map(str.strip, line.split(":", 1))
             labels[label] = address_counter
             if command:
                 text_section.append(command)
@@ -71,7 +73,7 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
     resolved_text_section: List[Instruction] = []
     for command in text_section:
         for label, address in labels.items():
-            command = re.sub(r'\b' + re.escape(label) + r'\b', str(address), command)
+            command = re.sub(r"\b" + re.escape(label) + r"\b", str(address), command)
         command = command.replace(",", "")
         parts = command.split()
         if len(parts) == 0:
@@ -81,36 +83,38 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
 
         formatted_args: List[ArgType] = []
         for arg in args:
-            if re.match(r'^R[0-9]+$', arg):
+            if re.match(r"^R[0-9]+$", arg):
                 formatted_args.append({ArgType.REG.value: arg})
-            elif re.match(r'^\d+$', arg):
+            elif re.match(r"^\d+$", arg):
                 formatted_args.append({ArgType.NUMBER.value: arg})
-            elif re.match(r'^\(\s*R[0-9]+\s*\)$', arg):
+            elif re.match(r"^\(\s*R[0-9]+\s*\)$", arg):
                 formatted_args.append({ArgType.INDIRECT_ADDRESS.value: arg.strip("()")})
             elif arg == "'\\n'":
-                formatted_args.append({ArgType.NUMBER.value: str(ASCII_END_OF_LINE_CODE)})
+                formatted_args.append(
+                    {ArgType.NUMBER.value: str(ASCII_END_OF_LINE_CODE)}
+                )
 
         resolved_text_section.append({"opcode": opcode, "args": formatted_args})
 
-    return {
-        'data': data_section,
-        'text': resolved_text_section
-    }
+    return {"data": data_section, "text": resolved_text_section}
+
 
 def translate_to_json(asm_code: str) -> str:
     parsed_asm = parse_asm(asm_code)
     return json.dumps(parsed_asm, indent=4)
 
+
 def main():
     input_file = sys.argv[1]
     target_file = sys.argv[2]
-    with open(input_file, 'r', encoding="utf-8") as infile:
+    with open(input_file, "r", encoding="utf-8") as infile:
         asm_code = infile.read()
-    
+
     json_output = translate_to_json(asm_code)
-    
-    with open(target_file, 'w') as outfile:
+
+    with open(target_file, "w") as outfile:
         outfile.write(json_output)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

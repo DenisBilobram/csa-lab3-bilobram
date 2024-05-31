@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Opcode(Enum):
     MOV = "MOV"
     LOAD = "LOAD"
@@ -18,6 +19,7 @@ class Opcode(Enum):
     HALT = "HALT"
     OUT = "OUT"
     IN = "IN"
+
 
 class ArgType(Enum):
     REG = "reg"
