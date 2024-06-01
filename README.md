@@ -153,7 +153,7 @@
 | l  : variable 1       |
 | l+1: variable 2       |
 | ...                   |
-| c  : str literal      |
+| c  : char literal     |
 | ...                   |
 +-----------------------+
 ```
