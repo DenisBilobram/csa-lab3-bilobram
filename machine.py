@@ -25,17 +25,11 @@ def replace_escape_sequences(input_data: List[str]) -> List[str]:
     return input_data
 
 
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: machine.py <asm_file.json> <input_file>")
-        sys.exit(1)
-
-    asm_file = sys.argv[1]
-    input_file = sys.argv[2]
+def main(object_file, input_file):
     # asm_file = "result.json"
     # input_file = "input.txt"
 
-    asm_data = load_json(asm_file)
+    asm_data = load_json(object_file)
 
     with open(input_file, "r") as file:
         input_data = replace_escape_sequences(list(file.read().strip()))
@@ -53,8 +47,16 @@ def main():
     except EOFError:
         pass
 
-    print("".join(data_path.output_buffer))
+    print("".join(data_path.output_buffer), end="")
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        print("Usage: machine.py <asm_file.json> <input_file>")
+        sys.exit(1)
+
+    object_file = sys.argv[1]
+    input_file = sys.argv[2]
+    # object_file = "result.o"
+    # input_file = "asm_programs/user_name.txt"
+    main(object_file, input_file)

@@ -12,6 +12,8 @@ numpy = "^1.26.4"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.6"
+pytest = "^8.2.1"
+pytest-golden = "^0.2.2"
 
 [build-system]
 requires = ["poetry-core"]

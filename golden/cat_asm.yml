@@ -1,0 +1,94 @@
+in_source: |-
+  .text
+  START:
+      IN R1, 1
+      CMP R1, 0
+      JZ END
+      OUT R1, 1
+      JMP START
+  END:
+      HALT
+in_stdin: |-
+  Alice
+out_code: |-
+  {"data": [], "text": [{"opcode": "IN", "args": [{"reg": "R1"}, {"number": "1"}]}, {"opcode": "CMP", "args": [{"reg": "R1"}, {"number": "0"}]}, {"opcode": "JZ", "args": [{"number": "5"}]}, {"opcode": "OUT", "args": [{"reg": "R1"}, {"number": "1"}]}, {"opcode": "JMP", "args": [{"number": "0"}]}, {"opcode": "HALT", "args": []}]}
+out_stdout: |-
+  Alice
+out_log: |
+  DEBUG    root:control_unit.py:159 TICK: 1     ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 0     R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 2     ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 0     R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 3     ACTION: IN R1 1       MC: 90    IP: 0     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 4     ACTION: INSTR FETCH   MC: 0     IP: 1     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 5     ACTION: INSTR FETCH   MC: 1     IP: 1     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 6     ACTION: CMP R1 0      MC: 94    IP: 1     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 7     ACTION: INSTR FETCH   MC: 0     IP: 2     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 8     ACTION: INSTR FETCH   MC: 1     IP: 2     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 9     ACTION: JZ 5          MC: 93    IP: 2     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 10    ACTION: INSTR FETCH   MC: 0     IP: 3     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 11    ACTION: INSTR FETCH   MC: 1     IP: 3     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 12    ACTION: OUT R1 1      MC: 87    IP: 3     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 13    ACTION: INSTR FETCH   MC: 0     IP: 4     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 14    ACTION: INSTR FETCH   MC: 1     IP: 4     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 15    ACTION: JMP 0         MC: 86    IP: 4     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 16    ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 17    ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 65    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 18    ACTION: IN R1 1       MC: 90    IP: 0     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 19    ACTION: INSTR FETCH   MC: 0     IP: 1     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 20    ACTION: INSTR FETCH   MC: 1     IP: 1     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 21    ACTION: CMP R1 0      MC: 94    IP: 1     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 22    ACTION: INSTR FETCH   MC: 0     IP: 2     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 23    ACTION: INSTR FETCH   MC: 1     IP: 2     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 24    ACTION: JZ 5          MC: 93    IP: 2     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 25    ACTION: INSTR FETCH   MC: 0     IP: 3     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 26    ACTION: INSTR FETCH   MC: 1     IP: 3     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 27    ACTION: OUT R1 1      MC: 87    IP: 3     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 28    ACTION: INSTR FETCH   MC: 0     IP: 4     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 29    ACTION: INSTR FETCH   MC: 1     IP: 4     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 30    ACTION: JMP 0         MC: 86    IP: 4     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 31    ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 32    ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 108   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 33    ACTION: IN R1 1       MC: 90    IP: 0     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 34    ACTION: INSTR FETCH   MC: 0     IP: 1     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 35    ACTION: INSTR FETCH   MC: 1     IP: 1     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 36    ACTION: CMP R1 0      MC: 94    IP: 1     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 37    ACTION: INSTR FETCH   MC: 0     IP: 2     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 38    ACTION: INSTR FETCH   MC: 1     IP: 2     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 39    ACTION: JZ 5          MC: 93    IP: 2     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 40    ACTION: INSTR FETCH   MC: 0     IP: 3     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 41    ACTION: INSTR FETCH   MC: 1     IP: 3     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 42    ACTION: OUT R1 1      MC: 87    IP: 3     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 43    ACTION: INSTR FETCH   MC: 0     IP: 4     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 44    ACTION: INSTR FETCH   MC: 1     IP: 4     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 45    ACTION: JMP 0         MC: 86    IP: 4     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 46    ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 47    ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 105   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 48    ACTION: IN R1 1       MC: 90    IP: 0     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 49    ACTION: INSTR FETCH   MC: 0     IP: 1     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 50    ACTION: INSTR FETCH   MC: 1     IP: 1     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 51    ACTION: CMP R1 0      MC: 94    IP: 1     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 52    ACTION: INSTR FETCH   MC: 0     IP: 2     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 53    ACTION: INSTR FETCH   MC: 1     IP: 2     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 54    ACTION: JZ 5          MC: 93    IP: 2     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 55    ACTION: INSTR FETCH   MC: 0     IP: 3     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 56    ACTION: INSTR FETCH   MC: 1     IP: 3     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 57    ACTION: OUT R1 1      MC: 87    IP: 3     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 58    ACTION: INSTR FETCH   MC: 0     IP: 4     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 59    ACTION: INSTR FETCH   MC: 1     IP: 4     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 60    ACTION: JMP 0         MC: 86    IP: 4     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 61    ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 62    ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 99    R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 63    ACTION: IN R1 1       MC: 90    IP: 0     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 64    ACTION: INSTR FETCH   MC: 0     IP: 1     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 65    ACTION: INSTR FETCH   MC: 1     IP: 1     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 66    ACTION: CMP R1 0      MC: 94    IP: 1     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 67    ACTION: INSTR FETCH   MC: 0     IP: 2     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 68    ACTION: INSTR FETCH   MC: 1     IP: 2     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 69    ACTION: JZ 5          MC: 93    IP: 2     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 70    ACTION: INSTR FETCH   MC: 0     IP: 3     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 71    ACTION: INSTR FETCH   MC: 1     IP: 3     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 0
+  DEBUG    root:control_unit.py:159 TICK: 72    ACTION: OUT R1 1      MC: 87    IP: 3     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 73    ACTION: INSTR FETCH   MC: 0     IP: 4     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 74    ACTION: INSTR FETCH   MC: 1     IP: 4     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 75    ACTION: JMP 0         MC: 86    IP: 4     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 76    ACTION: INSTR FETCH   MC: 0     IP: 0     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1
+  DEBUG    root:control_unit.py:159 TICK: 77    ACTION: INSTR FETCH   MC: 1     IP: 0     AR: 0     R1: 101   R2: 0     R3: 0     Z: 0   DR: 0     OR: 1

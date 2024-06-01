@@ -129,7 +129,7 @@ class DataPath:
                     raise EOFError()
                 symbol = self.input_buffer[0]
                 if isinstance(symbol, str):
-                    symbol = ord(symbol)
+                    symbol = int16(ord(symbol))
                 assert -128 <= symbol <= 127, "input token is out of bound: {}".format(
                     symbol
                 )
@@ -186,9 +186,9 @@ class DataPath:
 
     def signal_latch_r3(self):
         self.r3 = self.mux1
-    
+
     def signal_out_buf_write(self):
         pass
-    
+
     def signal_inp_buf_read(self):
         pass

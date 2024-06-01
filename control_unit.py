@@ -154,7 +154,7 @@ class ControlUnit:
         log_message += f"R3: {self.data_path.r3:<4}  "
         log_message += f"Z: {int(self.data_path.alu.zero_flag):<2}  "
         log_message += f"DR: {self.data_path.data_register:<4}  "
-        log_message += f"OR: {self.data_path.operand_register:<4}  "
+        log_message += f"OR: {self.data_path.operand_register}"
 
         logging.debug(log_message)
 

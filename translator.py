@@ -101,12 +101,11 @@ def parse_asm(asm_code: str) -> Dict[str, Union[List[int], List[Instruction]]]:
 
 def translate_to_json(asm_code: str) -> str:
     parsed_asm = parse_asm(asm_code)
-    return json.dumps(parsed_asm, indent=4)
+
+    return json.dumps(parsed_asm, separators=(", ", ": "))
 
 
-def main():
-    input_file = sys.argv[1]
-    target_file = sys.argv[2]
+def main(input_file, target_file):
     with open(input_file, "r", encoding="utf-8") as infile:
         asm_code = infile.read()
 
@@ -117,4 +116,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    input_file = sys.argv[1]
+    target_file = sys.argv[2]
+    main(input_file, target_file)
