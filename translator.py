@@ -66,7 +66,9 @@ def parse_text_section(text_code: str, labels: dict[str, int]) -> list[str]:
     return text_section
 
 
-def resolve_labels(text_section: list[str], labels: dict[str, int]) -> list[Instruction]:
+def resolve_labels(
+    text_section: list[str], labels: dict[str, int]
+) -> list[Instruction]:
     resolved_text_section: list[Instruction] = []
     for command in text_section:
         for label, address in labels.items():
