@@ -51,5 +51,4 @@ PRINT_NAME:
 END:
     LOAD R1, exclamation
     OUT R1, 1
-
     HALT
