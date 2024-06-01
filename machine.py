@@ -1,19 +1,21 @@
+from __future__ import annotations
+
 import json
-import sys
-from typing import List
-from data_path import DataPath
-from control_unit import ControlUnit
 import logging
+import sys
+
+from control_unit import ControlUnit
+from data_path import DataPath
 
 ASCII_END_OF_LINE_CODE = 10
 
 
 def load_json(filename):
-    with open(filename, "r") as file:
+    with open(filename) as file:
         return json.load(file)
 
 
-def replace_escape_sequences(input_data: List[str]) -> List[str]:
+def replace_escape_sequences(input_data: list[str]) -> list[str]:
     i = len(input_data) - 1
     while i > 0:
         if input_data[i] == "n" and input_data[i - 1] == "\\":
@@ -26,12 +28,9 @@ def replace_escape_sequences(input_data: List[str]) -> List[str]:
 
 
 def main(object_file, input_file):
-    # asm_file = "result.json"
-    # input_file = "input.txt"
-
     asm_data = load_json(object_file)
 
-    with open(input_file, "r") as file:
+    with open(input_file) as file:
         input_data = replace_escape_sequences(list(file.read().strip()))
 
     logging.basicConfig(level=logging.DEBUG, format="%(levelname)s | %(message)s")
@@ -57,6 +56,4 @@ if __name__ == "__main__":
 
     object_file = sys.argv[1]
     input_file = sys.argv[2]
-    # object_file = "result.o"
-    # input_file = "asm_programs/user_name.txt"
     main(object_file, input_file)

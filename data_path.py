@@ -1,6 +1,8 @@
-from typing import List
-from microcode import SignalValue
+from __future__ import annotations
+
 from numpy import int16
+
+from microcode import SignalValue
 
 
 class ALU:
@@ -20,11 +22,11 @@ class ALU:
 
 
 class Memory:
-    memory: List[int16] = None
+    memory: list[int16] = None
 
     output_value: int16 = None
 
-    def __init__(self, data: List[int16]):
+    def __init__(self, data: list[int16]):
         self.memory = [int16(el) for el in data]
         self.memory.extend([int16(0)] * (1024 - len(data)))
         self.output_value = int16(0)
@@ -47,8 +49,8 @@ class DataPath:
 
     alu: ALU = None
 
-    input_buffer: List[int16] = None
-    output_buffer: List[int16] = None
+    input_buffer: list[int16] = None
+    output_buffer: list[int16] = None
 
     mux1: int16 = None
 
@@ -58,7 +60,7 @@ class DataPath:
 
     operand_bus: int16 = None
 
-    def __init__(self, data: List[int16], input_tokens: List[str]):
+    def __init__(self, data: list[int16], input_tokens: list[str]):
         self.data_memory = Memory(data)
         self.data_register = int16(0)
         self.operand_register = int16(0)

@@ -1,22 +1,24 @@
-from typing import List
-from microcode import (
-    Signal,
-    SignalValue,
-    InstructionDecoder,
-    ControlStore,
-    Instruction,
-    Microcode,
-)
-from data_path import DataPath
+from __future__ import annotations
+
+import logging
 
 from numpy import int16
-import logging
+
+from data_path import DataPath
+from microcode import (
+    ControlStore,
+    Instruction,
+    InstructionDecoder,
+    Microcode,
+    Signal,
+    SignalValue,
+)
 
 
 class ControlUnit:
     instruction_pointer: int16 = None
 
-    instructions_memory: List[Instruction] = None
+    instructions_memory: list[Instruction] = None
 
     instruction_register: Instruction = None
 
@@ -35,7 +37,7 @@ class ControlUnit:
     mux1: int16 = None
     mux2: int16 = None
 
-    def __init__(self, data_path: DataPath, instructions: List[Instruction]):
+    def __init__(self, data_path: DataPath, instructions: list[Instruction]):
         self.instruction_pointer = int16(0)
         self.instructions_memory = instructions.copy()
         self.data_path = data_path
@@ -145,7 +147,7 @@ class ControlUnit:
         )
         log_message = ""
         log_message += f"TICK: {self.tick:<5} "
-        log_message += f"ACTION: {str(action):<12}  "
+        log_message += f"ACTION: {action!s:<12}  "
         log_message += f"MC: {self.mc_addres:<4}  "
         log_message += f"IP: {self.instruction_pointer:<4}  "
         log_message += f"AR: {self.data_path.address_register:<4}  "

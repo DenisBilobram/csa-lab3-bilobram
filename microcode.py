@@ -1,8 +1,11 @@
-from isa import ArgType, Opcode
+from __future__ import annotations
 
 from enum import Enum, auto
 from typing import Dict, List, Union
+
 from numpy import int16
+
+from isa import ArgType, Opcode
 
 
 class Signal(Enum):
@@ -191,12 +194,10 @@ class InstructionDecoder:
         }
 
     def set_mc_address(self, command, *args):
-        key = (command,) + args
+        key = (command, *args)
         self.mc_addres = self.mc_address_mapping.get(key, None)
         if self.mc_addres is None:
-            raise ValueError(
-                f"No microcode address found for command {command} with args {args}"
-            )
+            raise ValueError()
 
     def decode(self, instruction: Instruction):
         opcode = Opcode[instruction["opcode"]]
@@ -207,14 +208,14 @@ class InstructionDecoder:
         self.second_arg_type = None
 
         if len(args) > 0:
-            self.first_arg_val = list(args[0].values())[0]
-            self.first_arg_type = ArgType[list(args[0].keys())[0].upper()]
+            self.first_arg_val = next(iter(args[0].values()))
+            self.first_arg_type = ArgType[next(iter(args[0].keys())).upper()]
             if self.first_arg_type == ArgType.NUMBER:
                 self.operand = int16(int(self.first_arg_val))
 
         if len(args) > 1:
-            self.second_arg_val = list(args[1].values())[0]
-            self.second_arg_type = ArgType[list(args[1].keys())[0].upper()]
+            self.second_arg_val = next(iter(args[1].values()))
+            self.second_arg_type = ArgType[next(iter(args[1].keys())).upper()]
             if self.second_arg_type == ArgType.NUMBER:
                 self.operand = int16(int(self.second_arg_val))
 
@@ -296,7 +297,7 @@ class InstructionDecoder:
 
 
 class ControlStore:
-    mc_memory: List[Microcode] = None
+    mc_memory: list[Microcode] = None
 
     def __init__(self) -> None:
         self.mc_memory = []
