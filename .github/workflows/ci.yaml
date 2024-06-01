@@ -1,4 +1,4 @@
-name: Lint Code
+name: Python CI
 
 on: [push, pull_request]
 
@@ -26,13 +26,9 @@ jobs:
       run: |
         poetry run ruff check .
 
-name: Run Tests
-
-on: [push, pull_request]
-
-jobs:
   test:
     runs-on: ubuntu-latest
+    needs: lint
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
